@@ -10,4 +10,4 @@ pipeline:
 
 services:
   mysql:
-    image: wiq-mysql
+    image: mysql
