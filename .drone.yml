@@ -6,5 +6,5 @@ pipeline:
         build:
          image: golang
          commands:
-                - go get github.com/f6systems/bsdo
+                - make bsdo
 
