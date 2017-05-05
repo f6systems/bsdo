@@ -6,5 +6,5 @@ SHELL=/bin/bash
 
 #
 bsdo:
-	cd /home/hopley/go/src/github.com/f6systems/bsdo/cmd/bsdo && go get && go build -v
+	cd /go/src/github.com/f6systems/bsdo/cmd/bsdo && go get && go build -v
 
