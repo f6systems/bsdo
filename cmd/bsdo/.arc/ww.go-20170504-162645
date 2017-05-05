@@ -1,0 +1,84 @@
+package main
+
+import (
+//	"database/sql"
+	"log"
+	"os"
+
+	"github.com/f6systems/ww/dbsrv"
+)
+
+//Confi the structure for the application
+
+func init() {
+	log.Printf("[init()] Starting.\n")
+}
+
+func main() {
+	log.Printf("Starting.\n")
+	// move to mysql for testing
+	/*
+	dbconn := dbsrv.New( //"root:root@/weave?parseTime=true",
+		"root:root@/ww?parseTime=true"
+	)
+	*/
+	// db, err := sql.Open("mysql", "user:password@/dbname")
+        // username:password@protocol(address)/dbname?param=value
+        //  where address is For TCP and UDP networks, addresses have the form host:port
+	//DSN format.  db, err := sql.Open("mysql", "<username>:<pw>@tcp(<HOST>:<port>)/<dbname>")
+	dbconn := dbsrv.New("root:wiq@tcp(127.0.0.1:3306)/ww")
+	//shareDSN := dsn + "?_busy_timeout=50000"
+	// see = go/src/test
+	//createDatabaseFile(dsn)
+	/*
+	dbc, err := sql.Open("sqlite3", shareDSN)
+	if err = dbc.Ping(); err != nil {
+		log.Panic("ERROR: Ping of sqlite database failed. ", err)
+	}
+	if err != nil {
+		log.Printf("ERROR - opening database=%s\n", dsn)
+	}
+	*/
+	//need an open
+	err := dbconn.Open() //dbsrv.Open()
+	if err != nil {
+		log.Printf("ERROR: Issue Opening the database. (err=%v)\n",err)
+	}
+
+	dbsrv.mark("[ww:main()] A 'mark' at START.")
+	log.Printf("Completed.\n")
+}
+
+//mark() - func to put a message in the database ; Globa
+func (c *dbsrv.DBService) mark(msg string) {
+	//TODO:(hopley) - For the Testing put a 'WT' mark in and then query for it
+	sQ := "INSERT into mark(MarkLabel) values('" + msg + "')"
+	log.Printf("[mark()] -  where sQ=%s\n", sQ)
+	/*
+	log.Printf("doing a c.db.Ping() ...\n")
+	if err := c.db.Ping(); err != nil {
+		log.Printf("[mark()] - ERROR: Ping of database failed. (err=%v)\n",err)
+		os.Exit(128)
+	}
+	*/
+	result, err := c.DB.Exec("INSERT into mark(MarkLabel) VALUES($1)", msg)
+	if err != nil {
+		log.Printf("[mark()] - ERROR - doing INSERT for mark.(err=%v)\n",err)
+		os.Exit(128)
+	}
+	id, err := result.RowsAffected()
+	if id > 1 {
+		log.Printf("[db.makeMark()] - NOTE - Check , more than (1) row inserted?  In dbase.makeMark() id result.RowsAffected ()=%d\n", id)
+	}
+
+}
+
+/* 
+ create the mark table
+ # Drop TABLE mark;
+CREATE TABLE mark (
+  MarkLabel VARCHAR(140),
+  UpdatedAt  TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+#
+*/
