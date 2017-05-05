@@ -1,4 +1,4 @@
-# dobs
+# bsdo
  Simple set up for web server to 
 evolve a mysql database server 
 (in a docker container 
@@ -9,7 +9,7 @@ evolve a mysql database server
 package dbbs ... ) for the 
 DataBase BootStrap
 
-// drone at http://ru.ipcloud.net:8000
+// ?? drone at http://ru.ipcloud.net:8000
 
  //TODO:(hopley) get to https and IPCloud cert ...
 
