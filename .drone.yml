@@ -1,0 +1,12 @@
+workspace:
+        base: /go
+        path: src/github.com/f6systems/bsdo
+
+pipeline:
+        build:
+         image: golang
+         commands:
+                - go get github.com/f6systems/bsdo
+                - go build -v
+                - go test -v
+
