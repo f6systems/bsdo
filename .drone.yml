@@ -7,6 +7,4 @@ pipeline:
          image: golang
          commands:
                 - go get github.com/f6systems/bsdo
-                - go build -v
-                - go test -v
 
