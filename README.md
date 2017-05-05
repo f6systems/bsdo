@@ -9,3 +9,7 @@ evolve a mysql database server
 package dbbs ... ) for the 
 DataBase BootStrap
 
+// drone at http://ru.ipcloud.net:8000
+
+ //TODO:(hopley) get to https and IPCloud cert ...
+
