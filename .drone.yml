@@ -8,3 +8,6 @@ pipeline:
          commands:
                 - make bsdo
 
+services:
+  mysql:
+    image: wiq-mysql
