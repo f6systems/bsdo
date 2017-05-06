@@ -6,8 +6,8 @@ evolve a mysql database server
 )
 
  Here some work (later to be  a
-package dbbs ... ) for the 
-DataBase BootStrap
+package bsdb ... ) for the 
+BootStrap DataBase
 
 // ?? drone at http://ru.ipcloud.net:8000
 
