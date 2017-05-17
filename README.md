@@ -9,7 +9,7 @@ evolve a mysql database server
 package bsdb ... ) for the 
 BootStrap DataBase
 
-// ?? drone at http://ru.ipcloud.net:8000
+Setup a drone server on a Google Cloud CoreOS instance on :8000
 
  //TODO:(hopley) get to https and IPCloud cert ...
 
