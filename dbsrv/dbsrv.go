@@ -6,6 +6,7 @@ import (
 	"os"
 
         _ "github.com/go-sql-driver/mysql"
+        _ "github.com/mattn/go-sqlite3"
 )
 
 func init() {
@@ -14,6 +15,7 @@ func init() {
 
 //Service  - odot:(hopley) something more applicable ? less generic
 type DBService struct {
+	Driver  string
         DB   *sql.DB
         Path string
 }
@@ -25,11 +27,15 @@ func (s *DBService) Build() error {
 }
 
 // Open initializes the database session and gives you back an error if failed.
-func (s *DBService) Open() error {
+func (s *DBService) Open() error { 
 	// db, err := sql.Open("mysql", "user:password@/dbname")
 	// username:password@protocol(address)/dbname?param=value  
 	//  where address is For TCP and UDP networks, addresses have the form host:port
-        db, err := sql.Open("mysql", s.Path)
+	//mysql
+        //db, err := sql.Open("mysql", s.Path)
+	//sqlite -        DBC, err = sql.Open("sqlite3", dsn)
+	//db, err := sql.Open("sqlite3",s.Path)
+	db,err := sql.Open(s.Driver,s.Path)
         if err != nil {
 		log.Printf("[dbsrv:Open()] ERROR: <TEMP> STOP here (dbsrv.go:31)\n")
 		os.Exit(128)
@@ -43,8 +49,9 @@ func (s *DBService) Open() error {
 }
 
 //New() Return a *DBService type to caller (includes the database pointer).
-func New(p string) *DBService {
-        s := &DBService{Path: p}
+func New(d,p string) *DBService {
+	//TODO:(hopley) upd so driver and dsn are passed
+        s := &DBService{Driver: d,Path: p}
         return s
 }
 
