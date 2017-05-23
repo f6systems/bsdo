@@ -59,6 +59,11 @@ func New(d,p string) *DBService {
 //mark() - func to put a message in the database ; Globa
 func (s *DBService) Mark(msg string) {
         //TODO:(hopley) - For the Testing put a 'WT' mark in and then query for it
+	err := markConfirm(s.DB)
+	if err !=nil {
+		log.Printf("<FAIL> No mark to insert due to issue with table.(err=%v)\n",err)
+		return
+	}
         result, err := s.DB.Exec("INSERT into mark(MarkLabel) VALUES('TestMark')")
         if err != nil {
 		log.Printf("[dbsrv.Mark()] - ERROR - doing INSERT for mark.(err=%v)\n",err)
@@ -68,6 +73,21 @@ func (s *DBService) Mark(msg string) {
         if id > 1 {
                 log.Printf("[db.makeMark()] - NOTE - Check , more than (1) row inserted?  In dbase.makeMark() id result.RowsAffected ()=%d\n", id)
         }
+}
+
+func markConfirm(c *sql.DB) error {
+        sql_table := `
+        CREATE TABLE IF NOT EXISTS mark (
+  		MarkLabel VARCHAR(140),
+		UpdatedAt  TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        );
+        `
+        _, err := c.Exec(sql_table)
+        if err != nil {
+                log.Printf("<FAIL> PANIC - Creating mark table. (err=%v)\n", err)
+                return err
+        }
+        return nil
 }
 
 /*
