@@ -37,7 +37,8 @@ func main() {
 		log.Printf("ERROR: Some issue with database. (err=%v)\n", err)
 	}
 	release := bsdb.BSRelease(DBConn.DB)
-	log.Printf("<INFO> This database at the current release value = %d\n", release)
+	log.Printf("<INFO> This database should move to the current release value = %d\n", release)
 	DBConn.Mark("[bsdo:main()] Doing a Mark() in the mark table.")
+	//TODO:(hopley) - make process to get the newer SQL files run in. 1) list of what to process
 	log.Printf("Completed.\n")
 }
