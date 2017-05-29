@@ -31,14 +31,23 @@ func main() {
 	if err != nil {
 		log.Printf("ERROR: Issue Opening the database. (err=%v)\n", err)
 	}
-
+/*
 	err = bsdb.BSCheck(DBConn.DB)
 	if err != nil {
 		log.Printf("ERROR: Some issue with database. (err=%v)\n", err)
 	}
 	release := bsdb.BSRelease(DBConn.DB)
 	log.Printf("<INFO> This database should move to the current release value = %d\n", release)
+*/
 	DBConn.Mark("[bsdo:main()] Doing a Mark() in the mark table.")
+	BS_SQLDIR := os.Getenv("BS_SQLDIR")
+	if BS_SQLDIR == "" {
+		BS_SQLDIR = "./sql"
+	}
 	//TODO:(hopley) - make process to get the newer SQL files run in. 1) list of what to process
+	err = bsdb.Bootstrap(DBConn.DB,BS_SQLDIR)
+	if err != nil {
+		log.Printf("<FAIL> Issue getting the database bootstrap to successfully complete.(err=%v).\n",err)
+	}
 	log.Printf("Completed.\n")
 }
